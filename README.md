@@ -4,7 +4,7 @@ A simple project which helps you to find activities todo near you!
 
 ### How to Use
 
-1. Open the [deployed site here]() and click on the `Your Location` button to fetch your location.
+1. Open the [deployed site here](https://placefinder-eshaanagg.netlify.app/) and click on the `Your Location` button to fetch your location.
 2. Choose the `Type` of activity you want to do, and the `Distance` you are willing to travel for it.
 3. Click `Find` and find the acitivites in your neighbourhood!
 
