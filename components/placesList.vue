@@ -6,9 +6,9 @@
             <div class="center" >No places to show :( </div>
             <br />
         </div>
-        <div v-else class="item" v-for="place in places" :key="place.id">
+        <div v-else class="item" v-for="(place, index) in places" :key="place.id">
             <div class="content">
-                <div class="header">{{place.name}}</div>
+                <div class="header">{{`${index+1}. ${place.name}`}}</div>
                 <div class="meta">{{place.formatted}}</div>
             </div>
         </div>

@@ -62,6 +62,7 @@ const lat = useState("lat");
 const lng = useState("lng");
 
 const coordinates = computed(() => `${lat.value},${lng.value}`);
+const coordinatesAPISearch = computed(() => `${lng.value},${lat.value}`);
 const coordinatesDisplay = computed(() => `${lat.value.toString().substring(0, 5)} Lat, ${lng.value.toString().substring(0, 5)} Lng`);
 
 const locatorButtonPressed = () => {
@@ -82,15 +83,13 @@ const findClosebyButtonPressed = async () => {
     if (c.includes(type.value) && filteredCategories.length <= 94) filteredCategories.push(c);
   })
   
-  const URL = `https://api.geoapify.com/v2/places?categories=${filteredCategories.join(",")}&filter=circle:${coordinates.value},${radius.value * 1000}&bias=proximity:${coordinates.value}&limit=30&apiKey=${config.GEOAPIFY_KEY}`
-  console.log(URL);
+  const URL = `https://api.geoapify.com/v2/places?categories=${filteredCategories.join(",")}&filter=circle:${coordinatesAPISearch.value},${radius.value * 1000}&bias=proximity:${coordinatesAPISearch.value}&limit=30&apiKey=${config.GEOAPIFY_KEY}`
 
   const { data: fetchedPlaces, error } = await useFetch(URL);
   if (error.value) {
     console.log("Error!!! ", error);
   } else {
-    places.value = fetchedPlaces.value.features;
-    console.log(places.value);
+    places.value = fetchedPlaces.value.features.map((f) => ({ ...f.properties, name: f.properties.address_line1}));
   }
 };
 </script>
