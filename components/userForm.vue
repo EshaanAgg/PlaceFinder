@@ -30,7 +30,7 @@
         </div>
         
         <div class="center">
-        <button class="ui button" @click="findClosebyButtonPressed">
+        <button class="ui button" @click.prevent="findClosebyButtonPressed">
            Find Closeby 
         </button>
         </div>
@@ -41,11 +41,13 @@
 
 <script setup>
 import typeValues from "@/data/typeOfLocations.json";
+import categories from "@/data/allCategories.json"
+
 const config = useRuntimeConfig();
 
 const lat = ref(0);
 const lng = ref(0);
-const type = ref("restaurant");
+const type = ref("accommodation");
 const radius = ref("2");
 
 const radiusValues = [2, 5, 10, 15, 20, 25]
@@ -75,43 +77,24 @@ const locatorButtonPressed = () => {
 };
 
 const findClosebyButtonPressed = async () => {
-  const URL = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${
-    coordinates.value
-  }&type=${type.value}&radius=${radius.value * 1000}&key=${
-    config.GOOGLE_API_KEY
-    }`;
+  let filteredCategories = [];
+  categories.categories.forEach((c) => {
+    if (c.includes(type.value) && filteredCategories.length <= 94) filteredCategories.push(c);
+  })
+  
+  const URL = `https://api.geoapify.com/v2/places?categories=${filteredCategories.join(",")}&filter=circle:${coordinates.value},${radius.value * 1000}&bias=proximity:${coordinates.value}&limit=20&apiKey=${config.GEOAPIFY_KEY}`
   console.log(URL);
-  console.log("i");
 
   const { data: fetchedPlaces, error } = await useFetch(URL);
-  console.log("hi");
-  console.log(fetchedPlaces);
-  if (error) {
-    console.log(error.message);
+  if (error.value) {
+    console.log("Error!!! ", error);
   } else {
-    places.value = data.data.results;
-    console.log(places.value);
-    console.log(data);
-    addLocationsToGoogleMaps();
+    places.value = fetchedPlaces.value.features;
+    addLocationsToMap();
   }
 };
 
-const addLocationsToGoogleMaps = () => {
-	var map = new google.maps.Map(this.$refs['map'], {
-		zoom: 15,
-		center: new google.maps.LatLng(lat.value, lng.value),
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
-    
-	places.values.forEach((place) => {
-		const lat = place.geometry.location.lat;
-		const lng = place.geometry.location.lng;
-		let marker = new google.maps.Marker({
-			position: new google.maps.LatLng(lat, lng),
-			map: map
-		});
-	});
-}
+const addLocationsToMap = () => {}
 
 </script>
 
