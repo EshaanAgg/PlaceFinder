@@ -1,42 +1,22 @@
-# Nuxt 3 Minimal Starter
+# PlaceFinder
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A simple project which helps you to find activities todo near you!
 
-## Setup
+### How to Use
 
-Make sure to install the dependencies:
+1. Open the [deployed site here]() and click on the `Your Location` button to fetch your location.
+2. Choose the `Type` of activity you want to do, and the `Distance` you are willing to travel for it.
+3. Click `Find` and find the acitivites in your neighbourhood!
 
-```bash
-# yarn
-yarn install
+### Screenshots
 
-# npm
-npm install
+![Screenshot1](static/README/Screenshot1.jpg)
+![Screenshot2](static/README/Screenshot2.jpg)
 
-# pnpm
-pnpm install --shamefully-hoist
-```
+### Techstack Used
 
-## Development Server
-
-Start the development server on http://localhost:3000
-
-```bash
-npm run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-npm run build
-```
-
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- `Nuxt 3` for site development
+- `Semantic UI` as the CSS framework
+- `Google Maps Javascript API` for rendering the map
+- `HTML 5's Geolocation API` to fetch the user's location
+- `Geoapify's Places API` to fetch information about the places

@@ -3,14 +3,26 @@
     <div class="six wide column">
       <br />
       <div class="one">
-  <h1>Find the <br /> BEST ACTIVITIES <br />near you!</h1>
-</div>
-        
-        <userForm />
+        <h1>
+          Find the <br />
+          BEST ACTIVITIES <br />near you!
+        </h1>
+      </div>
+
+      <userForm />
     </div>
     <div class="ten wide column segment ui">
-      <GoogleMap :api-key="config.GOOGLE_API_KEY" style="width: 100%; height: 580px" :center="center" :zoom="10">
-        <Marker v-for="(marker, index) in markers" :key="index" :options="marker" />
+      <GoogleMap
+        :api-key="config.GOOGLE_API_KEY"
+        style="width: 100%; height: 580px"
+        :center="center"
+        :zoom="10"
+      >
+        <Marker
+          v-for="(marker, index) in markers"
+          :key="index"
+          :options="marker"
+        />
       </GoogleMap>
     </div>
   </div>
@@ -28,26 +40,27 @@ const lng = useState("lng", () => 80.56);
 const center = computed(() => ({ lat: lat.value, lng: lng.value }));
 
 const markers = computed(() => {
-  let markers = [{
-    position: center.value,
-    label: "You",
-    title: "This is where you are"
-  }]
+  let markers = [
+    {
+      position: center.value,
+      label: "You",
+      title: "This is where you are",
+    },
+  ];
 
   places.value.forEach((p, index) => {
     markers.push({
       position: {
         lat: p.lat,
-        lng: p.lon
+        lng: p.lon,
       },
       label: (index + 1).toString(),
-      title: p.name
+      title: p.name,
     });
   });
   console.log(markers);
   return markers;
-})
-
+});
 </script>
 
 <style>
