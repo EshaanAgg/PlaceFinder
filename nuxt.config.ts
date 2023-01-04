@@ -17,6 +17,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       GEOAPIFY_KEY: process.env.GEOAPIFY_KEY,
+      GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
     },
   },
 });

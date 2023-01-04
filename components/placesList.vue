@@ -9,7 +9,7 @@
         <div v-else class="item" v-for="place in places" :key="place.id">
             <div class="content">
                 <div class="header">{{place.name}}</div>
-                <div class="meta">{{place.vicinity}}</div>
+                <div class="meta">{{place.formatted}}</div>
             </div>
         </div>
     </div>

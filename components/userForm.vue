@@ -45,8 +45,6 @@ import categories from "@/data/allCategories.json"
 
 const config = useRuntimeConfig();
 
-const lat = ref(0);
-const lng = ref(0);
 const type = ref("accommodation");
 const radius = ref("2");
 
@@ -59,7 +57,9 @@ const capitalise = (s) => {
   return ans;
 }
 
-const places = useState("places", () => []);
+const places = useState("places");
+const lat = useState("lat");
+const lng = useState("lng");
 
 const coordinates = computed(() => `${lat.value},${lng.value}`);
 const coordinatesDisplay = computed(() => `${lat.value.toString().substring(0, 5)} Lat, ${lng.value.toString().substring(0, 5)} Lng`);
@@ -77,12 +77,12 @@ const locatorButtonPressed = () => {
 };
 
 const findClosebyButtonPressed = async () => {
-  let filteredCategories = [];
+  let filteredCategories = [type.value];
   categories.categories.forEach((c) => {
     if (c.includes(type.value) && filteredCategories.length <= 94) filteredCategories.push(c);
   })
   
-  const URL = `https://api.geoapify.com/v2/places?categories=${filteredCategories.join(",")}&filter=circle:${coordinates.value},${radius.value * 1000}&bias=proximity:${coordinates.value}&limit=20&apiKey=${config.GEOAPIFY_KEY}`
+  const URL = `https://api.geoapify.com/v2/places?categories=${filteredCategories.join(",")}&filter=circle:${coordinates.value},${radius.value * 1000}&bias=proximity:${coordinates.value}&limit=30&apiKey=${config.GEOAPIFY_KEY}`
   console.log(URL);
 
   const { data: fetchedPlaces, error } = await useFetch(URL);
@@ -90,12 +90,9 @@ const findClosebyButtonPressed = async () => {
     console.log("Error!!! ", error);
   } else {
     places.value = fetchedPlaces.value.features;
-    addLocationsToMap();
+    console.log(places.value);
   }
 };
-
-const addLocationsToMap = () => {}
-
 </script>
 
 <style>
